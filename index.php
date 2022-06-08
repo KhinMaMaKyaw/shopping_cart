@@ -1,3 +1,9 @@
+<?php
+
+$connect = mysqli_connect("localhost", "root", "", "shopping_cart");
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,146 +16,26 @@
 <body>
     <h1>Available Juice</h1>
     <div class="container">
-        <div class="card">
-            <div class="img">
-                <img src="./images/avocado.jpg" alt="photo">
-            </div>
-            <div class="product_name">
-                <p>Acocado Juice</p>
-            </div>
-            <div class="price">
-                <p>1500 MMK</p>
-            </div>
-            <div>
-                <input type="submit" value="BY NOW">
-            </div>
-        </div>
-        <div class="card">
-            <div class="img">
-                <img src="./images/apple.jpg" alt="photo">
-            </div>
-            <div class="product_name">
-                <p>Apple Juice</p>
-            </div>
-            <div class="price">
-                <p>1500 MMK</p>
-            </div>
-            <div>
-                <input type="submit" value="BY NOW">
-            </div>
-        </div>
-        <div class="card">
-            <div class="img">
-                <img src="./images/carrot.jpg" alt="photo">
-            </div>
-            <div class="product_name">
-                <p>Carrot Juice</p>
-            </div>
-            <div class="price">
-                <p>1500 MMK</p>
-            </div>
-            <div>
-                <input type="submit" value="BY NOW">
-            </div>
-        </div>
-        <div class="card">
-            <div class="img">
-                <img src="./images/lemon.jpg" alt="photo">
-            </div>
-            <div class="product_name">
-                <p>Lemon Juice</p>
-            </div>
-            <div class="price">
-                <p>1500 MMK</p>
-            </div>
-            <div>
-                <input type="submit" value="BY NOW">
-            </div>
-        </div>
-        <div class="card">
-            <div class="img">
-                <img src="./images/mango.jpg" alt="photo">
-            </div>
-            <div class="product_name">
-                <p>Mango Juice</p>
-            </div>
-            <div class="price">
-                <p>1500 MMK</p>
-            </div>
-            <div>
-                <input type="submit" value="BY NOW">
-            </div>
-        </div>
-        <div class="card">
-            <div class="img">
-                <img src="./images/mixfruit.jpg" alt="photo">
-            </div>
-            <div class="product_name">
-                <p>Mixfruit Juice</p>
-            </div>
-            <div class="price">
-                <p>1500 MMK</p>
-            </div>
-            <div>
-                <input type="submit" value="BY NOW">
-            </div>
-        </div>
-        <div class="card">
-            <div class="img">
-                <img src="./images/orange.jpg" alt="photo">
-            </div>
-            <div class="product_name">
-                <p>Orange Juice</p>
-            </div>
-            <div class="price">
-                <p>1500 MMK</p>
-            </div>
-            <div>
-                <input type="submit" value="BY NOW">
-            </div>
-        </div>
-        <div class="card">
-            <div class="img">
-                <img src="./images/pineapple.jpg" alt="photo">
-            </div>
-            <div class="product_name">
-                <p>Pineapple Juice</p>
-            </div>
-            <div class="price">
-                <p>1500 MMK</p>
-            </div>
-            <div>
-                <input type="submit" value="BY NOW">
-            </div>
-        </div>
-        <div class="card">
-            <div class="img">
-                <img src="./images/strawberry.jpg" alt="photo">
-            </div>
-            <div class="product_name">
-                <p>Strawberry Juice</p>
-            </div>
-            <div class="price">
-                <p>1500 MMK</p>
-            </div>
-            <div>
-                <input type="submit" value="BY NOW">
-            </div>
-        </div>
-        <div class="card">
-            <div class="img">
-                <img src="./images/watermelon.jpg" alt="photo">
-            </div>
-            <div class="product_name">
-                <p>Watermelon Juice</p>
-            </div>
-            <div class="price">
-                <p>1500 MMK</p>
-            </div>
-            <div>
-                <input type="submit" value="BY NOW">
-            </div>
-        </div>
+    
+    <?php
+    $query = "SELECT * FROM cart_item";
+    $result = mysqli_query($connect, $query);
+
+    while ($row = mysqli_fetch_array($result)){?>
+        <form method="POST" action="cart.php?id=<?=$row['id']?>" class="card" enctype="multipart/form-data">
+                <div class="image"><img src="./images/<?=$row['image']?>" alt="photo"></div>
+                <p class="product_name"><?=$row['name']?></p>
+                <p class="price"><?=$row['price']?> MMK</p>
+                <input type="hidden" name="name" value="<?=$row['name']?>">
+                <input type="hidden" name="image" value="<?=$row['image']?>">
+                <input type="hidden" name="price" value="<?=$row['price']?>">
+                <input type="num" value="1" min="1" max="10" name="quantity">
+                <input type="submit" value="BY NOW" name="add_to_cart">
+        </form>
+        <?php
+    }
+    ?>
+
     </div>
 </body>
 </html>
